@@ -1,0 +1,149 @@
+﻿@model DariaVarya.Web.App.Models.ChangeControlViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>ChangeControl</h4>
+<hr />
+<div class="row">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="DocumentNo" class="control-label"></label>
+            <input asp-for="DocumentNo" class="form-control" disabled />
+            <span asp-validation-for="DocumentNo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Date" class="control-label"></label>
+            <input asp-for="Date" class="form-control" type="date" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DepartemenCreator" class="control-label"></label>
+            <input asp-for="DepartemenCreator" class="form-control" />
+            <span asp-validation-for="DepartemenCreator" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Pabrik" class="control-label"></label>
+            <input asp-for="Pabrik" class="form-control" />
+            <span asp-validation-for="Pabrik" class="text-danger"></span>
+        </div>
+        <div class="p-2">
+            <button id="openModal" class="btn btn-primary">Add Department</button>
+        </div>
+        <table class="table table-bordered mb-3" id="selectedItemsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="selectedItemsBody">
+                @foreach (var item in Model.DepartemenLain)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DepartmentId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DepartmentName)
+                        </td>
+                        <td hidden>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td hidden>
+                            @Html.DisplayFor(modelItem => item.ChangeControlId)
+                        </td>
+                        <td hidden>
+                            @Html.DisplayFor(modelItem => item.CreatedBy)
+                        </td>
+                        <td hidden>
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </td>
+                        <td hidden>
+                            @Html.DisplayFor(modelItem => item.UpdatedBy)
+                        </td>
+                        <td hidden>
+                            @Html.DisplayFor(modelItem => item.UpdatedDate)
+                        </td>
+                        <td>
+                            <button class="btn btn-danger delete-row">Delete</button> <!-- Delete button -->
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="ProductName" class="control-label"></label>
+            <textarea asp-for="ProductName" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="ProductName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Deskripsi" class="control-label"></label>
+            <textarea asp-for="Deskripsi" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="Deskripsi" class="text-danger"></span>
+        </div>
+        <div class="p-2">
+            <div class="form-group">
+                <input type="button" id="btnEdit" value="Save" class="btn btn-success" />
+                <button class="btn btn-secondary" onclick="location.href='@Url.Action("Index")'">Back to List</button>
+            </div>
+        </div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Level" />
+        <input type="hidden" asp-for="CreatedBy" />
+        <input type="hidden" asp-for="CreatedDate" />
+        <input type="hidden" asp-for="UpdatedBy" />
+        <input type="hidden" asp-for="UpdatedDate" />
+        <input type="hidden" asp-for="Status" />
+    </div>
+</div>
+
+<div class="modal fade" id="itemsModal" tabindex="-1" role="dialog" aria-labelledby="itemsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="itemsModalLabel">Items</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Add</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemsTableBody">
+                        <!-- Dynamic content will be injected here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
+                @* <button type="button" class="btn btn-primary">Save changes</button> *@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* <div>
+    <a asp-action="Index">Back to List</a>
+</div> *@
+
+@section Scripts {
+    <script src="~/js/edit.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

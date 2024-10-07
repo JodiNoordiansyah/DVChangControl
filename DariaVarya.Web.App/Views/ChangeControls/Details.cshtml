@@ -1,0 +1,137 @@
+﻿@model DariaVarya.Web.App.Models.ChangeControlViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ChangeControl</h4>
+    <hr />
+    @if (Model.Notes != string.Empty)
+    {
+        <div style="color:orange">
+            <i class="fa fa-info-circle"></i> Notes: @Html.DisplayFor(model => model.Notes)
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.DocumentNo)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.DocumentNo)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Date)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Date)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.DepartemenCreator)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.DepartemenCreator)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Pabrik)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Pabrik)
+                </dd>
+            </dl>
+        </div>
+
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ProductName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Deskripsi)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Deskripsi)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CreatedBy)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CreatedDate)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    @* Hidden fields *@
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Role)
+    @Html.HiddenFor(model => model.IsDocumentApproval)
+    @Html.HiddenFor(model => model.IsCreator)
+    @Html.HiddenFor(model => model.Status)
+    @Html.HiddenFor(model => model.Level)
+</div>
+
+<div>
+    <button id="linkEdit" class="btn btn-primary" onclick="location.href='@Url.Action("Edit", new { id = Model?.Id })'">Edit</button>
+    <button id="submitDetail" class="btn btn-success">Submit</button>
+    <button id="approveDetail" class="btn btn-success">Approve</button>
+    <button id="reviseDetail" class="btn btn-warning">Revise</button>
+    <button id="rejectDetail" class="btn btn-danger">Reject</button>
+    <button id="downloadDetail" class="btn btn-info">Download</button>
+    <button class="btn btn-secondary" onclick="location.href='@Url.Action("Index")'">Back to List</button>
+</div>
+
+@* <!-- Popup Modal -->
+<div id="successModal" style="display:none;">
+    <p>Form submitted successfully!</p>
+    <button onclick="closeModal()">Close</button>
+</div> *@
+
+<div class="modal fade" id="textFieldModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Enter Text</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="textFieldForm" method="post" action="/Home/SubmitText">
+                    <div class="form-group">
+                        <label for="textInput">Text Input</label>
+                        <input type="text" class="form-control" id="textInput" name="textInput" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="mdlApproveSubmit" class="btn btn-primary" form="textFieldForm">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/submit.js"></script>
+}

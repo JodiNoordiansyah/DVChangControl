@@ -1,0 +1,136 @@
+﻿@model IEnumerable<DariaVarya.Web.App.Models.ChangeControl>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1>Index</h1>
+
+@if (ViewBag.IsCreatorRole)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<div id="search-container" class="mb-3">
+    <div class="row">
+        <div class="col-md-4 mb-2">
+            <label for="pabrik-input" class="form-label">Pabrik</label>
+            <input type="text" id="pabrik-input" class="form-control" placeholder="Pabrik" />
+        </div>
+
+        <div class="col-md-4 mb-2">
+            <label for="dateFr-input" class="form-label">Start Date</label>
+            <input type="date" id="dateFr-input" class="form-control" />
+        </div>
+
+        <div class="col-md-4 mb-2">
+            <label for="dateTo-input" class="form-label">End Date</label>
+            <input type="date" id="dateTo-input" class="form-control" />
+        </div>
+
+        <div class="col-md-12 mb-2 d-flex justify-content-end">
+            <button id="search-button" class="btn btn-outline-secondary me-2" type="button">Search</button>
+            @* <button id="download-button" class="btn btn-outline-secondary" type="button">Download</button> *@
+        </div>
+    </div>
+</div>
+
+
+@* <div id="search-results"></div> *@
+
+<div id="search-results" class="table-responsive" style=" max-height: 400px; overflow-y: scroll;">
+    <table class="table table-fit-content">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DocumentNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DepartemenCreator)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Pabrik)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Deskripsi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th >
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocumentNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date, "{0:yyyy-MM-dd}")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DepartemenCreator)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pabrik)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Deskripsi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    @if (string.IsNullOrEmpty(item.Status) || (item.Status.ToUpper() == "DRAFT" && item.CreatedBy == User.FindFirst(x => x.Type.Equals("UserName", StringComparison.InvariantCulture))?.Value))
+
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        </td>
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="~/js/index.js"></script>
+   @*  @{
+        await Html.RenderPartialAsync("_SearchResults",null);
+    } *@
+}
